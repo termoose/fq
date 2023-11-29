@@ -49,6 +49,40 @@ func ascDecoder(d *decode.D) any {
 	objectType := d.FieldUintFn("object_type", decodeEscapeValueCarryFn(5, 6, 0), format.MPEGAudioObjectTypeNames)
 	d.FieldUintFn("sampling_frequency", decodeEscapeValueAbsFn(4, 24, 0), frequencyIndexHzMap)
 	d.FieldU4("channel_configuration", channelConfigurationNames)
+
+	if objectType == format.MPEGAudioObjectTypeSBR || objectType == format.MPEGAudioObjectTypePS {
+		d.FieldUintFn("extension_sampling_frequency", decodeEscapeValueAbsFn(4, 24, 0), frequencyIndexHzMap)
+		objectType = d.FieldUintFn("extension_object_type", decodeEscapeValueCarryFn(5, 6, 0), format.MPEGAudioObjectTypeNames)
+
+		if objectType == format.MPEGAudioObjectTypeBSAC {
+			d.FieldU4("extension_channel_configuration", channelConfigurationNames)
+		}
+	}
+
+	switch objectType {
+	case 1, 2, 3, 4, 6, 7, 17, 19, 20, 21, 22, 23: // GASpecificConfig
+		d.FieldU1("frame_length_flag")
+		if depends := d.FieldU1("depends_on_core_coder"); depends == 1 {
+			d.FieldU14("core_coder_delay")
+		}
+
+		extensionFlag := d.FieldU1("extension_flag")
+
+		if objectType == format.MPEGAudioObjectTypeAACScalable || objectType == format.MPEGAudioObjectTypeER_AACScalable {
+			d.FieldU3("layer_number")
+		}
+
+		if extensionFlag == 1 {
+			if objectType == format.MPEGAudioObjectTypeBSAC {
+				d.FieldU5("num_of_sub_frame")
+			}
+
+			d.FieldU11("layer_length")
+		}
+
+		if objectType ==
+	}
+
 	// TODO: GASpecificConfig etc
 	d.FieldRawLen("var_aot_or_byte_align", d.BitsLeft())
 

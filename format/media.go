@@ -130,13 +130,16 @@ var MpegObjectTypeStreamType = map[uint64]int{
 }
 
 const (
-	MPEGAudioObjectTypeMain      = 1
-	MPEGAudioObjectTypeLC        = 2
-	MPEGAudioObjectTypeSSR       = 3
-	MPEGAudioObjectTypeLTP       = 4
-	MPEGAudioObjectTypeSBR       = 5
-	MPEGAudioObjectTypeER_AAC_LD = 23
-	MPEGAudioObjectTypePS        = 29
+	MPEGAudioObjectTypeMain           = 1
+	MPEGAudioObjectTypeLC             = 2
+	MPEGAudioObjectTypeSSR            = 3
+	MPEGAudioObjectTypeLTP            = 4
+	MPEGAudioObjectTypeSBR            = 5
+	MPEGAudioObjectTypeAACScalable    = 6
+	MPEGAudioObjectTypeER_AACScalable = 20
+	MPEGAudioObjectTypeBSAC           = 22
+	MPEGAudioObjectTypeER_AAC_LD      = 23
+	MPEGAudioObjectTypePS             = 29
 )
 
 var MPEGAudioObjectTypeNames = scalar.UintMap{
@@ -162,7 +165,7 @@ var MPEGAudioObjectTypeNames = scalar.UintMap{
 	19:                           {Sym: "er_aac_ltp", Description: "ER AAC LTP"},
 	20:                           {Sym: "er_aac_Scalable", Description: "ER AAC Scalable"},
 	21:                           {Sym: "er_twinvq", Description: "ER TwinVQ"},
-	22:                           {Sym: "er_bsac", Description: "ER BSAC Bit-Sliced Arithmetic Coding"},
+	MPEGAudioObjectTypeBSAC:      {Sym: "er_bsac", Description: "ER BSAC Bit-Sliced Arithmetic Coding"},
 	MPEGAudioObjectTypeER_AAC_LD: {Sym: "er_aac_ld", Description: "ER AAC LD Low Delay"},
 	24:                           {Sym: "er_celp", Description: "ER CELP"},
 	25:                           {Sym: "er_hvxc", Description: "ER HVXC"},
